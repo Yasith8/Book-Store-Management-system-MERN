@@ -1,0 +1,87 @@
+const Book = require("../model/bookmodel");
+const mongoose = require('mongoose');
+
+const getAllBookData = async(req, res) => {
+    try {
+        const books = await Book.find({}).sort({ createdAt: -1 })
+        return res.status(200).json({
+            count: books.length,
+            data: books
+        });
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+
+    }
+}
+
+
+const getSpesificBook = async(req, res) => {
+    const { id } = req.params;
+
+    const books = await Book.find({ _id: id })
+    return res.status(200).json(books)
+}
+
+
+const addNewBook = async(req, res) => {
+    try {
+        if (!req.body.title || !req.body.author || !req.body.publishYear) {
+            return res.status(400).send({ message: "Fill All the data in Form" });
+        }
+
+        const newBook = {
+            title: req.body.title,
+            author: req.body.author,
+            publishYear: req.body.publishYear
+        }
+
+        const book = await Book.create(newBook);
+        return res.status(201).send(book);
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send("Following errors in Saving the data", { message: error.message })
+    }
+}
+
+const updateBook = async(req, res) => {
+    try {
+        if (!req.body.title || !req.body.author || !req.body.publishYear) {
+            return res.status(400).send("Complete all the empty spaces")
+        }
+
+        const { id } = req.params;
+
+        const book = await Book.findByIdAndUpdate(id, req.body);
+
+        if (!book) {
+            return res.send("No such book found!").status(400)
+        } else {
+            return res.send("Update Completed Successfully!").status(400)
+        }
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+
+const deleteBook = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const delBook = await Book.findByIdAndDelete(id);
+
+        if (!delBook) {
+            return res.status(400).send("No Book Found with this ID");
+        } else {
+            return res.status(200).send("Book Deleted Successfully")
+        }
+
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+
+module.exports = { getAllBookData, getSpesificBook, addNewBook, updateBook, deleteBook }
