@@ -13,13 +13,13 @@ app.use(express.json())
 
 //middleware to handle cors policy
 //1.all origins default with cors
-//app.use(cors())
-//2.allow only cuttom origin
-app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowHeaders: ['Content-Type']
-}))
+app.use(cors())
+    //2.allow only cuttom origin
+    /* app.use(cors({
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowHeaders: ['Content-Type']
+    })) */
 
 const PORT = process.env.PORT || 8070;
 const URL = process.env.URL
