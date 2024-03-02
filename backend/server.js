@@ -65,7 +65,7 @@ app.post("/books", async(req, res) => {
 //update the book
 app.put("/books/:id", async(req, res) => {
     try {
-        if (!req.body.title || req.body.author || req.body.publishYear) {
+        if (!req.body.title || !req.body.author || !req.body.publishYear) {
             return res.status(400).send("Complete all the empty spaces")
         }
 
@@ -78,6 +78,23 @@ app.put("/books/:id", async(req, res) => {
         } else {
             return res.send("Update Completed Successfully!").status(400)
         }
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+})
+
+app.delete("/books/:id", async(req, res) => {
+    try {
+        const { id } = req.params;
+        const delBook = await Book.findByIdAndDelete(id);
+
+        if (!delBook) {
+            return res.status(400).send("No Book Found with this ID");
+        } else {
+            return res.status(200).send("Book Deleted Successfully")
+        }
+
 
     } catch (error) {
         return res.status(500).json({ message: error.message })
