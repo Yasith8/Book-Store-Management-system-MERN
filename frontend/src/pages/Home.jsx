@@ -72,7 +72,7 @@ function Home() {
               </td>
               <td className='border-2 border-purple-700 rounded-md text-center'>
                 <div className='flex justify-center gap-x-4'>
-                  <Link to={`/books/details/${book._id}`}>
+                  <Link to={`/books/view/${book._id}`}>
                     <BsInfoCircle className='text-2xl text-green-800' />
                   </Link>
                   <Link to={`/books/edit/${book._id}`}>
