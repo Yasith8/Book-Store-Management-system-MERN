@@ -6,8 +6,8 @@ import Sprinner from '../components/Sprinner'
 import BackButton from '../components/BackButton'
 
 function ViewBook() {
-  const [book,setBook]=useState({})
   const [loading,setLoading]=useState(false);
+  const [book,setBook]=useState({})
   const {id}=useParams();
 
   useEffect(()=>{
